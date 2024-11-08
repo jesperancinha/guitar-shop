@@ -1,0 +1,13 @@
+query guitarList($id: ID) {
+    guitarById(id: $id) {
+        id
+        brand
+        model
+        year
+        owner {
+            id
+            firstName
+            lastName
+        }
+    }
+}

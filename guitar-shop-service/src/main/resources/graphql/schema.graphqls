@@ -1,0 +1,18 @@
+type Query {
+    guitarById(id: ID): GuitarDto
+    ownerById(id: ID): OwnerDto
+}
+
+type GuitarDto {
+    id: ID
+    brand: String
+    model: String
+    year: Int
+    owner: OwnerDto
+}
+
+type OwnerDto {
+    id: ID
+    firstName: String
+    lastName: String
+}
