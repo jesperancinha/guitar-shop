@@ -1,11 +1,8 @@
 package org.jesperancinha.guitar.controller
 
-import org.jesperancinha.guitar.service.GuitarService
-import org.jesperancinha.guitar.service.OwnerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.stereotype.Controller
 import org.springframework.test.web.reactive.server.WebTestClient
 import kotlin.test.Test
 

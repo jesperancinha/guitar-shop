@@ -1,8 +1,8 @@
 package org.jesperancinha.guitar.service
 
 import org.jesperancinha.guitar.dto.GuitarDto
-import org.jesperancinha.guitar.repository.GuitarRepository
 import org.jesperancinha.guitar.dto.toDto
+import org.jesperancinha.guitar.repository.GuitarRepository
 import org.springframework.stereotype.Service
 
 @Service
