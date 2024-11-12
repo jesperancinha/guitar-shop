@@ -1,5 +1,6 @@
 [versions]
 apollo = "4.1.0"
+junit= "5.11.3"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.0.21" }
@@ -7,3 +8,4 @@ apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
 
 [libraries]
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo"}
+junit-bom = { group = "org.junit", name="junit-bom", version.ref = "junit" }

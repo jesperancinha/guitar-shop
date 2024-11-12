@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     implementation(libs.apollo.runtime)
-    testImplementation(platform("org.junit:junit-bom:5.11.3"))
+    testImplementation(platform(libs.junit.bom))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
