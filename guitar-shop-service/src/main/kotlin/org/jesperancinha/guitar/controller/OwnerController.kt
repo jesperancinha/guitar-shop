@@ -1,5 +1,6 @@
 package org.jesperancinha.guitar.controller
 
+import org.jesperancinha.guitar.dto.OwnerDto
 import org.jesperancinha.guitar.service.OwnerService
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
@@ -12,5 +13,5 @@ class OwnerController(
 ) {
 
     @QueryMapping
-    suspend fun ownerById(@Argument("id") id: Long) = ownerService.getByIdOrNull(id)
+    suspend fun ownerById(@Argument("id") id: Long): OwnerDto? = ownerService.getByIdOrNull(id)
 }
