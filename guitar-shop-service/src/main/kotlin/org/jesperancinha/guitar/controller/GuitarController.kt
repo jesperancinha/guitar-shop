@@ -17,9 +17,9 @@ class GuitarController(
 ) {
 
     @QueryMapping
-    fun guitarById(@Argument("id") id: Long) = guitarService.getByIdOrNull(id)
+    suspend fun guitarById(@Argument("id") id: Long) = guitarService.getByIdOrNull(id)
 
     @SchemaMapping
-    fun owner(guitarDto: GuitarDto): OwnerDto? =
+    suspend fun owner(guitarDto: GuitarDto): OwnerDto? =
         ownerService.getByIdOrNull(guitarDto.ownerId)
 }

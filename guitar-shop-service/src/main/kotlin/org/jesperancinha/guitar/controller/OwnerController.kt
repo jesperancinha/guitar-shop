@@ -12,5 +12,5 @@ class OwnerController(
 ) {
 
     @QueryMapping
-    fun ownerById(@Argument("id") id: Long) = ownerService.getByIdOrNull(id)
+    suspend fun ownerById(@Argument("id") id: Long) = ownerService.getByIdOrNull(id)
 }
