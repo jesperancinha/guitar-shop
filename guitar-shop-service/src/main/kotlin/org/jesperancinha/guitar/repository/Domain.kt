@@ -2,7 +2,7 @@ package org.jesperancinha.guitar.repository
 
 import org.springframework.stereotype.Repository
 
-class Guitar(
+data class Guitar(
     val id: Long,
     val brand: String,
     val model: String,
@@ -10,10 +10,17 @@ class Guitar(
     val owner: Owner
 )
 
-class Owner(
+data class Owner(
     val id: Long,
     val firstName: String,
     val lastName: String
+)
+
+data class Task(
+    val id: String,
+    val title: String,
+    val status: String,
+    val projectId: String
 )
 
 interface IRepository<T, ID> {

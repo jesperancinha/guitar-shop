@@ -16,3 +16,14 @@ type OwnerDto {
     firstName: String
     lastName: String
 }
+
+type Task {
+    id: ID!
+    title: String!
+    status: String!
+    projectId: String!
+}
+
+type Subscription {
+    taskUpdates(projectId: ID!): Task
+}
