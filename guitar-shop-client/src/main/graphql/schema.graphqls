@@ -24,6 +24,20 @@ type Query {
   ownerById(id: ID): OwnerDto
 }
 
+type Subscription {
+  taskUpdates(projectId: ID!): Task
+}
+
+type Task {
+  id: ID!
+
+  title: String!
+
+  status: String!
+
+  projectId: String!
+}
+
 type __Directive {
   """
   The __Directive type represents a Directive that a server supports.
@@ -310,4 +324,5 @@ directive @oneOf on INPUT_OBJECT
 
 schema {
   query: Query
+  subscription: Subscription
 }
