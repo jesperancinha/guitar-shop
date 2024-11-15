@@ -1,0 +1,8 @@
+subscription taskList($projectId: ID!) {
+    taskUpdates(projectId: $projectId) {
+        id
+        projectId
+        status
+        title
+    }
+}

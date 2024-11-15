@@ -4,6 +4,9 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.jesperancinha.guitar.gui.GuitarListQuery
+import org.jesperancinha.guitar.gui.TaskListSubscription
+import org.jesperancinha.guitar.gui.type.Subscription
 import kotlin.system.exitProcess
 
 class ApolloGuitarClient {
@@ -19,13 +22,20 @@ class ApolloGuitarClient {
                 apolloClient.findAndEchoGuitarInformation(1)
                 apolloClient.findAndEchoGuitarInformation(2)
                 apolloClient.findAndEchoGuitarInformation(3)
+                apolloClient.createSubscription()
             }
             exitProcess(0)
         }
 
+        private suspend fun ApolloClient.createSubscription() {
+            val response = subscription(TaskListSubscription(projectId = "123"))
+                .execute().data
+            println(response)
+        }
+
         private suspend fun ApolloClient.findAndEchoGuitarInformation(id: Int) {
             val response =
-                query(_root_ide_package_.org.jesperancinha.guitar.gui.GuitarListQuery(id = Optional.present(id.toString())))
+                query(GuitarListQuery(id = Optional.present(id.toString())))
                     .execute()
             if (response.hasErrors()) {
                 println("Error fetching guitar: ${response.errors}")
