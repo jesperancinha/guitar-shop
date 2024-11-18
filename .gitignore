@@ -40,3 +40,4 @@ build/
 
 ### Gradle ###
 .gradle
+.kotlin
