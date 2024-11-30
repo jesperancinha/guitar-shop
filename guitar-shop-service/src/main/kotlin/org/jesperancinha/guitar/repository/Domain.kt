@@ -2,6 +2,12 @@ package org.jesperancinha.guitar.repository
 
 import org.springframework.stereotype.Repository
 
+data class User(
+    val id: String,
+    val name: String,
+    val age: Int
+)
+
 data class Guitar(
     val id: Long,
     val brand: String,

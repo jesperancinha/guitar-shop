@@ -1,6 +1,7 @@
 type Query {
     guitarById(id: ID): GuitarDto
     ownerById(id: ID): OwnerDto
+    allUsers: [User!]
 }
 
 type GuitarDto {
@@ -26,4 +27,14 @@ type Task {
 
 type Subscription {
     taskUpdates(projectId: ID!): Task
+}
+
+type Mutation {
+    createUser(name: String!, age: Int!): User
+}
+
+type User {
+    id: ID!
+    name: String!
+    age: Int!
 }

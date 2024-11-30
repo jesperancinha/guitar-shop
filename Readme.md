@@ -45,9 +45,7 @@ query getGuitar {
 ```shell
 curl -X POST http://localhost:8080/graphql \
   -H "Content-Type: application/json" \
-  -d '{
-        "query": "query getGuitar { guitarById(id: 1) { id model owner { id lastName } } }"
-      }'
+  -d '{"query":"{  allUsers { id name age } }"}'
 ```
 
 ```graphql
@@ -64,6 +62,36 @@ curl -X POST http://localhost:8080/graphql \
   -H "Content-Type: application/json" \
   -d '{
         "query": "query getOwner { ownerById(id: 1) { id lastName } }"
+      }'
+```
+
+#### All users
+
+```graphql
+mutation {
+  createUser(name: "Black Raven", age: 30) {
+    id
+    name
+    age
+  }
+}
+```
+
+```graphql
+query {
+  allUsers {
+    id
+    name
+    age
+  }
+}
+```
+
+```shell
+curl -X POST http://localhost:8080/graphql \
+  -H "Content-Type: application/json" \
+  -d '{
+        "query": "query allUsers { id name age }"
       }'
 ```
 
