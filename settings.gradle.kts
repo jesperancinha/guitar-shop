@@ -1,4 +1,4 @@
 rootProject.name = "guitar-shop"
 
 include(":guitar-shop-client")
-include("guitar-shop-custom-service")
+include(":guitar-shop-custom-service")
