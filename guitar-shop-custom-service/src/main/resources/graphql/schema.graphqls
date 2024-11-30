@@ -1,0 +1,3 @@
+type Query {
+    myField(name: String): String
+}
