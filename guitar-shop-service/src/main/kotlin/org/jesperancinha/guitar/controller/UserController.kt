@@ -1,5 +1,6 @@
 package org.jesperancinha.guitar.controller
 
+import graphql.GraphQLContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import org.jesperancinha.guitar.repository.User
@@ -20,5 +21,11 @@ class UserController(private val userService: UserService) {
     @QueryMapping
     fun allUsers(): Flow<User> {
         return userService.getAllUsers().asFlow()
+    }
+
+    @QueryMapping
+    fun getUserInfo(context: GraphQLContext): String {
+        val authenticatedUser = context.get<String>("authenticatedUser")
+        return authenticatedUser ?: "Anonymous"
     }
 }

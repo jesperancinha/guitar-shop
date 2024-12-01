@@ -2,6 +2,7 @@ type Query {
     guitarById(id: ID): GuitarDto
     ownerById(id: ID): OwnerDto
     allUsers: [User!]
+    getUserInfo: String
 }
 
 type GuitarDto {
