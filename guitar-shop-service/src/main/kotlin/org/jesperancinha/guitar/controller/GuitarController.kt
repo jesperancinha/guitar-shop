@@ -1,5 +1,6 @@
 package org.jesperancinha.guitar.controller
 
+import org.jesperancinha.guitar.config.GuitarNotFoundException
 import org.jesperancinha.guitar.dto.GuitarDto
 import org.jesperancinha.guitar.dto.OwnerDto
 import org.jesperancinha.guitar.service.GuitarService
@@ -17,7 +18,7 @@ class GuitarController(
 ) {
 
     @QueryMapping
-    suspend fun guitarById(@Argument("id") id: Long) = guitarService.getByIdOrNull(id)
+    suspend fun guitarById(@Argument("id") id: Long) = guitarService.getByIdOrNull(id) ?: throw GuitarNotFoundException()
 
     @SchemaMapping
     suspend fun owner(guitarDto: GuitarDto): OwnerDto? =
