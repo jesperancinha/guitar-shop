@@ -1,6 +1,5 @@
 package org.jesperancinha.guitar.config
 
-import graphql.GraphQLError
 import graphql.GraphQLException
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -8,11 +7,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.web.server.SecurityWebFilterChain
-import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestControllerAdvice
-import java.lang.RuntimeException
 
 
 @Configuration
@@ -39,7 +36,7 @@ class OwnerNotFoundException: RuntimeException() {
     override val message: String = "No owner found!"
 }
 
-@RestControllerAdvice
+@ControllerAdvice
 class GraphQLExceptionHandler {
 
     @ExceptionHandler(GuitarNotFoundException::class)
