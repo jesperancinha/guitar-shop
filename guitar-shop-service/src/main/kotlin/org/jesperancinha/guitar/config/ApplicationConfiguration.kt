@@ -1,20 +1,21 @@
 package org.jesperancinha.guitar.config
 
-import graphql.GraphQLContext
 import graphql.GraphQLException
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.graphql.server.WebGraphQlInterceptor
+import org.springframework.graphql.server.WebGraphQlRequest
+import org.springframework.graphql.server.WebGraphQlResponse
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.server.ServerWebExchange
-import org.springframework.web.server.WebFilter
-import org.springframework.web.server.WebFilterChain
 import reactor.core.publisher.Mono
+import java.util.*
 
 
 @Configuration
@@ -69,28 +70,20 @@ class GraphQLExceptionHandler {
     }
 }
 
-class AuthenticationWebFilter : WebFilter {
+@Component
+class CustomGraphQlInterceptor : WebGraphQlInterceptor {
 
-    override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
-        val authToken = exchange.request.headers.getFirst("Authorization") // Example: Extract from Authorization header
-        val user = authenticateUser(authToken)
-        val graphQLContext = GraphQLContext.newContext()
-            .of("authenticatedUser", user)
-            .build()
-        exchange.attributes["graphql.context"] = graphQLContext
-        return chain.filter(exchange)
+    val decoder: Base64.Decoder by lazy { Base64.getDecoder() }
+
+    override fun intercept(request: WebGraphQlRequest, chain: WebGraphQlInterceptor.Chain): Mono<WebGraphQlResponse?> {
+        val user = extractUser(request)
+        return chain.next(request).contextWrite { context ->
+            context.put("authenticatedUser", user)
+        }
     }
 
-    private fun authenticateUser(authToken: String?): String {
-        return "User Name"
-    }
-}
-
-@Configuration
-class WebConfig {
-
-    @Bean
-    fun authenticationFilter(): WebFilter {
-        return AuthenticationWebFilter()
+    private fun extractUser(request: WebGraphQlRequest): String {
+        return request.headers.getFirst("Authorization")
+            ?.run { String(decoder.decode(this.replace("Basic ", "").trim())).split(":")[0] } ?: "Anonymous"
     }
 }

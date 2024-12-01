@@ -1,6 +1,6 @@
 ## Making a query
 
-- http://localhost:8080/graphiql?path=/graphql
+-   http://localhost:8080/graphiql?path=/graphql
 
 ## Query examples
 
@@ -97,6 +97,10 @@ curl -X POST http://localhost:8080/graphql \
 
 ## Resources
 
-- https://spring.io/guides/gs/graphql-server
-- https://www.apollographql.com/docs/kotlin/tutorial/04-execute-the-query
-- https://plugins.jetbrains.com/plugin/8097-graphql
+-   https://spring.io/guides/gs/graphql-server
+-   https://www.apollographql.com/docs/kotlin/tutorial/04-execute-the-query
+-   https://plugins.jetbrains.com/plugin/8097-graphql
+
+## About me
+
+[![GitHub followers](https://img.shields.io/github/followers/jesperancinha.svg?label=Jesperancinha&style=for-the-badge&logo=github&color=grey "GitHub")](https://github.com/jesperancinha)
