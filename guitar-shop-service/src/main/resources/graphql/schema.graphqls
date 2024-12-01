@@ -3,6 +3,7 @@ type Query {
     ownerById(id: ID): OwnerDto
     allUsers: [User!]
     getUserInfo: String
+    hello: String
 }
 
 type GuitarDto {

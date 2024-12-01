@@ -87,3 +87,4 @@ class CustomGraphQlInterceptor : WebGraphQlInterceptor {
             ?.run { String(decoder.decode(this.replace("Basic ", "").trim())).split(":")[0] } ?: "Anonymous"
     }
 }
+
