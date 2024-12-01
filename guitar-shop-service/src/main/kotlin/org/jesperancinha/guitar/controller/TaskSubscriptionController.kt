@@ -14,7 +14,5 @@ class TaskSubscriptionController(
 ) {
 
     @SubscriptionMapping
-    fun taskUpdates(@Argument("projectId") projectId: String): Flow<Task> {
-        return taskService.getTaskUpdates(projectId).asFlow()
-    }
+    fun taskUpdates(@Argument("projectId") projectId: String): Flow<Task> = taskService.getTaskUpdates(projectId).asFlow()
 }
