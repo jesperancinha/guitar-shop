@@ -1,7 +1,6 @@
 package org.jesperancinha.guitar.service
 
 import org.jesperancinha.guitar.repository.Task
-import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import java.time.Duration
