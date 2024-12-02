@@ -1,8 +1,15 @@
 package org.jesperancinha.guitar.config
 
 import graphql.GraphQLException
+import graphql.language.StringValue
+import graphql.schema.Coercing
+import graphql.schema.CoercingParseValueException
+import graphql.schema.CoercingSerializeException
+import graphql.schema.GraphQLScalarType
+import graphql.schema.idl.RuntimeWiring
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.graphql.execution.RuntimeWiringConfigurer
 import org.springframework.graphql.server.WebGraphQlInterceptor
 import org.springframework.graphql.server.WebGraphQlRequest
 import org.springframework.graphql.server.WebGraphQlResponse
@@ -15,6 +22,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import reactor.core.publisher.Mono
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.*
 
 
@@ -33,6 +43,38 @@ class ReactiveSecurityConfig {
 
         return http.build()
     }
+
+    @Bean
+    fun dateScalar(): GraphQLScalarType {
+        return GraphQLScalarType.newScalar()
+            .name("Date")
+            .description("A custom scalar to handle LocalDate")
+            .coercing(object : Coercing<LocalDate, String> {
+                private val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+
+                override fun serialize(dataFetcherResult: Any): String {
+                    return (dataFetcherResult as? LocalDate)?.format(formatter)
+                        ?: throw CoercingSerializeException("Invalid value for Date scalar")
+                }
+
+                override fun parseValue(input: Any): LocalDate {
+                    return try {
+                        LocalDate.parse((input as StringValue).value, formatter)
+                    } catch (ex: DateTimeParseException) {
+                        throw CoercingParseValueException("Invalid value for Date scalar")
+                    }
+                }
+
+                override fun parseLiteral(input: Any): LocalDate {
+                    return parseValue(input)
+                }
+            })
+            .build()
+    }
+
+    @Bean
+    fun runtimeWiringConfigurer(): RuntimeWiringConfigurer =
+        RuntimeWiringConfigurer { builder: RuntimeWiring.Builder -> builder.scalar(dateScalar()) }
 }
 
 class GuitarNotFoundException : RuntimeException() {
@@ -87,4 +129,3 @@ class CustomGraphQlInterceptor : WebGraphQlInterceptor {
             ?.run { String(decoder.decode(this.replace("Basic ", "").trim())).split(":")[0] } ?: "Anonymous"
     }
 }
-
