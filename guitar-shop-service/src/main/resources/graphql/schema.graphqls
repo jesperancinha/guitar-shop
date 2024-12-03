@@ -7,6 +7,7 @@ type Query {
     getUserInfo: String
     hello: String
     getEvents: [Event]
+    getUsers(userIds: [Int!]!): [User!]!
 }
 
 

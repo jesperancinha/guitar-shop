@@ -7,6 +7,10 @@ import graphql.schema.CoercingParseValueException
 import graphql.schema.CoercingSerializeException
 import graphql.schema.GraphQLScalarType
 import graphql.schema.idl.RuntimeWiring
+import org.dataloader.DataLoader
+import org.dataloader.DataLoaderFactory
+import org.dataloader.DataLoaderRegistry
+import org.jesperancinha.guitar.repository.User
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.graphql.execution.RuntimeWiringConfigurer
@@ -26,6 +30,8 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executors
 
 
 @Configuration
@@ -113,14 +119,21 @@ class GraphQLExceptionHandler {
 }
 
 @Component
-class CustomGraphQlInterceptor : WebGraphQlInterceptor {
+class CustomGraphQlInterceptor(
+    private val dataLoaderRegistry: DataLoaderRegistry
+) : WebGraphQlInterceptor {
 
     val decoder: Base64.Decoder by lazy { Base64.getDecoder() }
 
     override fun intercept(request: WebGraphQlRequest, chain: WebGraphQlInterceptor.Chain): Mono<WebGraphQlResponse?> {
         val user = extractUser(request)
         return chain.next(request).contextWrite { context ->
-            context.put("authenticatedUser", user)
+            context.putAllMap(
+                mapOf(
+                    DataLoaderRegistry::class.java to dataLoaderRegistry,
+                    "authenticatedUser" to user
+                )
+            )
         }
     }
 
@@ -129,3 +142,27 @@ class CustomGraphQlInterceptor : WebGraphQlInterceptor {
             ?.run { String(decoder.decode(this.replace("Basic ", "").trim())).split(":")[0] } ?: "Anonymous"
     }
 }
+
+@Configuration
+class DataLoaderConfig {
+
+    @Bean
+    fun dataLoaderRegistry(): DataLoaderRegistry {
+        val registry = DataLoaderRegistry()
+        val dataLoader = createUserLoader()
+        registry.register("userLoader", dataLoader)
+        return registry
+    }
+
+    private val executor = Executors.newFixedThreadPool(10)
+
+    private fun createUserLoader(): DataLoader<Int, User> {
+        return DataLoaderFactory.newDataLoader { userIds: List<Int> ->
+            CompletableFuture.supplyAsync({
+                val usersById = userIds.associateWith { id -> User(id.toString(), "User $id", 1) }
+                userIds.map { id -> usersById[id]!! }
+            }, executor)
+        }
+    }
+}
+
