@@ -14,19 +14,19 @@ query MyQuery {
 
 ##### Example Authorization
 
-1. Plain Text
+1.  Plain Text
 
 ```text
 joao:joao
 ```
 
-2. Base 64
+2.  Base 64
 
 ```text
 Basic am9hbzpqb2Fv
 ```
 
-3. Headers
+3.  Headers
 
 ```json
 {
