@@ -1,6 +1,6 @@
 [versions]
 apollo = "4.3.0"
-junit = "5.13.0"
+junit = "5.13.1"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.1.21" }
