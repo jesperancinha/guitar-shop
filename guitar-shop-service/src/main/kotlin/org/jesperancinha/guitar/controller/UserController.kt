@@ -1,6 +1,7 @@
 package org.jesperancinha.guitar.controller
 
 import graphql.GraphQLContext
+import graphql.schema.DataFetchingEnvironment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import org.dataloader.DataLoader
@@ -35,11 +36,10 @@ class UserController(private val userService: UserService) {
     @QueryMapping
     fun getUsers(
         @Argument userIds: List<Int>,
-        graphQlContext: GraphQLContext
+        env: DataFetchingEnvironment
     ): List<User> {
-        val userDataLoader: DataLoader<Int, User> =
-            graphQlContext.get<DataLoaderRegistry>(DataLoaderRegistry::class.java)
-                .getDataLoader("userLoader")
+        val userDataLoader =
+            requireNotNull(env.getDataLoader<Int, User>("userLoader"))
         return userDataLoader.loadMany(userIds).get()
     }
 }
