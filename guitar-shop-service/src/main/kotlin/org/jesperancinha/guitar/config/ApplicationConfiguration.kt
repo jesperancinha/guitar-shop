@@ -125,7 +125,7 @@ class CustomGraphQlInterceptor(
 
     val decoder: Base64.Decoder by lazy { Base64.getDecoder() }
 
-    override fun intercept(request: WebGraphQlRequest, chain: WebGraphQlInterceptor.Chain): Mono<WebGraphQlResponse?> {
+    override fun intercept(request: WebGraphQlRequest, chain: WebGraphQlInterceptor.Chain): Mono<WebGraphQlResponse> {
         val user = extractUser(request)
         return chain.next(request).contextWrite { context ->
             context.putAllMap(
