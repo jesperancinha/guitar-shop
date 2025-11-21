@@ -1,14 +1,25 @@
 package org.jesperancinha.guitar.controller
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.web.reactive.server.WebTestClient
 import kotlin.test.Test
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
-class GuitarControllerTest(@Autowired val webTestClient: WebTestClient) {
+class GuitarControllerTest {
+
+    @LocalServerPort
+    private var port: Int = 0
+
+    private lateinit var webTestClient: WebTestClient
+
+    @BeforeEach
+    fun setUp() {
+        webTestClient = WebTestClient.bindToServer()
+            .baseUrl("http://localhost:$port")
+            .build()
+    }
 
     @Test
     fun `should fetch guitar by id`() {
