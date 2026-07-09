@@ -1,10 +1,10 @@
 package org.jesperancinha.graphql.custom
 
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class GuitarCustomServiceLauncher
 fun main(args: Array<String>) {
-    SpringApplication.run(GuitarCustomServiceLauncher::class.java, *args)
+    runApplication<GuitarCustomServiceLauncher>(*args)
 }

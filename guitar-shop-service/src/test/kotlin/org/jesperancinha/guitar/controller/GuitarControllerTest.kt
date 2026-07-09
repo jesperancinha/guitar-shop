@@ -9,7 +9,7 @@ import kotlin.test.Test
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GuitarControllerTest {
 
-    @LocalServerPort
+    @field:LocalServerPort
     private var port: Int = 0
 
     private lateinit var webTestClient: WebTestClient

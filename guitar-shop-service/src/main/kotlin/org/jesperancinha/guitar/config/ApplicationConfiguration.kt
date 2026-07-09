@@ -160,7 +160,7 @@ class DataLoaderConfig {
         return DataLoaderFactory.newDataLoader { userIds: List<Int> ->
             CompletableFuture.supplyAsync({
                 val usersById = userIds.associateWith { id -> User(id.toString(), "User $id", 1) }
-                userIds.map { id -> usersById[id]!! }
+                userIds.map { id -> usersById.getValue(id) }
             }, executor)
         }
     }
