@@ -95,6 +95,19 @@ curl -X POST http://localhost:8080/graphql \
       }'
 ```
 
+---
+
+## Claude
+
+Prompt claude with the following:
+
+### Run all skills
+```text
+please run skills annotations, docker, kotlin, ktor, parallel, spring, jvm, and spring-test on this project
+```
+
+---
+
 ## Resources
 
 -   https://spring.io/guides/gs/graphql-server
